@@ -75,21 +75,21 @@ public static class MenuPrincipal
         servicio.Agregar(emp);
     }
 
-    private static void ListarEmpleados(EmpleadoService servicio)
+   private static void ListarEmpleados(EmpleadoService servicio)
     {
         Console.Clear();
         Console.WriteLine("LISTA DE EMPLEADOS\n");
 
         var lista = servicio.ObtenerTodos();
-        if (lista.Count == 0)
+        if (!lista.Any())
         {
             Console.WriteLine("No hay empleados registrados.");
             return;
         }
 
-        for (int i = 0; i < lista.Count; i++)
+        foreach (var kvp in lista.OrderBy(k => k.Key))
         {
-            Console.WriteLine($"{i + 1}. {lista[i]}");
+            Console.WriteLine($"[{kvp.Key}] {kvp.Value}");
         }
     }
 
