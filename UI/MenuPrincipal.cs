@@ -56,23 +56,24 @@ public static class MenuPrincipal
         Console.ResetColor();
     }
 
+   // En UI/MenuPrincipal.cs → dentro de RegistrarEmpleado()
     private static void RegistrarEmpleado(EmpleadoService servicio)
     {
         Console.Clear();
         Console.WriteLine("REGISTRO DE NUEVO EMPLEADO\n");
 
-        var emp = new Empleado();
-
-        Console.Write("Nombre: ");
-        emp.Nombre = Console.ReadLine()?.Trim() ?? "Sin nombre";
+        Console.Write("Nombre completo: ");
+        string nombre = Console.ReadLine()?.Trim() ?? "Sin nombre";
 
         Console.Write("Cargo: ");
-        emp.Cargo = Console.ReadLine()?.Trim() ?? "Sin cargo";
+        string cargo = Console.ReadLine()?.Trim() ?? "Sin cargo";
 
-        emp.Edad = PedirEntero("Edad", 18, 100);
-        emp.Salario = PedirDecimal("Salario mensual", 0);
+        int edad = PedirEntero("Edad", 18, 100);
+        decimal salario = PedirDecimal("Salario mensual", 1000m);
 
-        servicio.Agregar(emp);
+        // Usamos el método reutilizable del servicio
+        var empleado = servicio.CrearEmpleado(nombre, cargo, edad, salario);
+        servicio.Agregar(empleado);
     }
 
    private static void ListarEmpleados(EmpleadoService servicio)
