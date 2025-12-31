@@ -1,13 +1,13 @@
-﻿using CorpManager.Services;
-using CorpManager.UI;
+﻿using CorpManager_Completo.Services;
+using CorpManager_Completo.UI;
 
-namespace CorpManager;
+namespace CorpManager_Completo;
 
 class Program
 {
     static void Main(string[] args)
     {
-        var servicioEmpleados = new EmpleadoService();
-        MenuPrincipal.Mostrar(servicioEmpleados);
+        var servicioPersonas = new PersonaService();
+        MenuPrincipal.Mostrar(servicioPersonas);
     }
 }

@@ -1,59 +1,28 @@
-// Models/Empleado.cs
-namespace CorpManager.Models;
+using CorpManager_Completo.Models;
 
-public class Empleado
+namespace CorpManager_Completo.Models;
+
+public class Empleado : Persona
 {
-    // Campos privados (encapsulamiento)
-    private string _nombre = string.Empty;
-    private string _cargo = string.Empty;
-    private int _edad;
-    private decimal _salario;
-
-    // Constructor principal
-    public Empleado(string nombre, string cargo, int edad = 18, decimal salario = 0m)
+    public Empleado(string nombre, string cargo, int edad, decimal salarioMensual)
+        : base(nombre, edad)
     {
-        Nombre = nombre;     // usa la propiedad para validar
         Cargo = cargo;
-        Edad = edad;
-        Salario = salario;
+        SalarioMensual = salarioMensual;
     }
 
-    // Propiedades con validación (Sesión 6)
-    public string Nombre
-    {
-        get => _nombre;
-        set => _nombre = string.IsNullOrWhiteSpace(value) ? "Sin nombre" : value.Trim();
-    }
+    public string Cargo { get; init; } = string.Empty;
+    public decimal SalarioMensual { get; private set; }
 
-    public string Cargo
-    {
-        get => _cargo;
-        set => _cargo = string.IsNullOrWhiteSpace(value) ? "Sin cargo" : value.Trim();
-    }
+    public override string ObtenerRol() => "Empleado";
 
-    public int Edad
-    {
-        get => _edad;
-        set => _edad = value < 16 ? 18 : value > 100 ? 100 : value;
-    }
-
-    public decimal Salario
-    {
-        get => _salario;
-        set => _salario = value < 0 ? 0m : value;
-    }
-
-    // Método de instancia (Sesión 6)
-    public string ObtenerInfoCompleta()
-    {
-        return $"[ID] {Nombre.PadRight(20)} | {Cargo.PadRight(15)} | {Edad,3} años | ${Salario,12:N2}";
-    }
+    public override decimal CalcularSalarioAnual() => SalarioMensual * 12m;
 
     public void AplicarAumento(decimal porcentaje)
     {
-        if (porcentaje <= 0) return;
-        Salario += Salario * (porcentaje / 100m);
+        if (porcentaje > 0)
+            SalarioMensual += SalarioMensual * (porcentaje / 100m);
     }
 
-    public override string ToString() => ObtenerInfoCompleta();
+    public override string ToString() => base.ToString() + $" | {Cargo} | ${SalarioMensual:N2}/mes → ${CalcularSalarioAnual():N2}/año";
 }
